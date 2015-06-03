@@ -80,10 +80,40 @@ module Garryl::Loader
   child class) to be applied when data is loaded.
 
 class Garryl::Loader::RegexConf
+- Capture types
+  A set of constants that indicate how a RegexConf should process captures.
+  CAPTURE_IGNORE: Capture block will be ignored and will not be passed
+  CAPTURE_STRING: Capture block will be passed back as a string
+  CAPTURE_INT: Capture block will be passed back as an integer
+  CAPTURE_FLOAT: Capture block will be passed back as a floating point value
 - new(regular expression, [capture type, [capture type, [...]]])
+  Creates a new regular expression configuration. When loading occurs, it will
+  be used to scan each object's note. See scan() for details.
+- scan(string)
+  Called automatically in the process of loading note tags for objects.
+  Scans the passed string using the regular expression supplied during
+  instantiation. Returns an array of all capture results (themselves in
+  arrays). Capture results are of the capture types supplied during
+  instantiation. Any missing capture results will be the conversion of nil
+  (ie: nil.to_s, nil.to_i, nil.to_f, etc.). Capture results beyond those for
+  which capture types were supplied are ignored and not included.
 
 class Garryl::Loader::LoadGroup
+- Data groups
+  A set of constants that indicate what data sets the load group refers to.
+  ACTORS: $data_actors
+  CLASSES: $data_classes
+  SKILLS: $data_skills
+  ITEMS: $data_items
+  WEAPONS: $data_weapons
+  ARMOR: $data_armors
+  ENEMIES: $data_enemies
+  STATES: $data_states
+  TILESETS: $data_tilesets
+  MAPS: Game_Map objects, as they are set up
 - new([data group, [data group, [...]]])
+  Creates a new load group. When loading occurs, it will be used to determine
+  which objects' notes the configuration applies to.
 
 class Garryl::Loader::NotetagLoadingConfiguration
   Serves as a base class, extended by others. Has no functionality itself.
@@ -165,7 +195,7 @@ Example: Defining a note tag to add a note-defined level parameter to enemies.
 
 module Garryl::Loader
   register(CustomMethod.new(
-    NoteRegexConfig.new(/<level:\s*(\d+)\s*>/i, NoteRegexConfig::CAPTURE_INT),
+    RegexConfig.new(/<level:\s*(\d+)\s*>/i, NoteRegexConfig::CAPTURE_INT),
     LoadGroup.new(LoadGroup::ENEMIES),
     :notetag_level))
 end

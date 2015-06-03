@@ -131,7 +131,7 @@ v1.0
 =end
 
 #Import requirements check
-unless $imported && $imported["Garryl"] && $imported["Garryl"]["Loader"]
+unless (($imported || {})["Garryl"] || {})["Loader"]
   puts "Error! Garryl Loader module not imported."
   puts "Get it at https://github.com/Garryl/RGSS3-Scripts"
   puts "If Loader script is already included among your materials, please ensure that Loader Defaults (file: #{__FILE__}) comes after it."
@@ -158,289 +158,289 @@ module Garryl
     # * abnormal places, such as the features of passive skills.              *
     # * If you are not using any such scripts, this one is entirely optional. *
     # *************************************************************************
-    # * Note: Make sure you place this AFTER the main loader script.          *
+    # * Note: Make sure you place this script AFTER the main loader script.   *
     # *************************************************************************
     
     
     #--------------------------------------------------------------------------
     # * Features
     #--------------------------------------------------------------------------
-    register(LoadFeature.new(RegexConf.new(/<feature:\s*([\-\+]?[0-9]+)(?:[,\s]\s*([\-\+]?[0-9]+)(?:[,\s]\s*([\-\+]?[0-9]+(?:\.[0-9]+)?))?)?\s*>/i,
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s*:\s*([\-\+]?[0-9]+)(?:[,\s]\s*([\-\+]?[0-9]+)(?:[,\s]\s*([\-\+]?[0-9]+(?:\.[0-9]+)?))?)?\s*>/i,
           RegexConf::CAPTURE_INT, RegexConf::CAPTURE_INT, RegexConf::CAPTURE_FLOAT)))
                                               # Manual feature entry
           
-    register(LoadFeature.new(RegexConf.new(/<feature element rate:\s*([1-9][0-9]*)[,\s]\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_INT, RegexConf::CAPTURE_FLOAT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+element rate\s*:\s*([1-9][0-9]*)[,\s]\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_INT, RegexConf::CAPTURE_FLOAT),
     Game_BattlerBase::FEATURE_ELEMENT_RATE))  # Element Rate
-    register(LoadFeature.new(RegexConf.new(/<feature debuff rate:\s*([1-9][0-9]*)[,\s]\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_INT, RegexConf::CAPTURE_FLOAT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+debuff\s+rate\s*:\s*([1-9][0-9]*)[,\s]\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_INT, RegexConf::CAPTURE_FLOAT),
     Game_BattlerBase::FEATURE_DEBUFF_RATE))   # Debuff Rate
-    register(LoadFeature.new(RegexConf.new(/<feature state rate:\s*([1-9][0-9]*)[,\s]\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_INT, RegexConf::CAPTURE_FLOAT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+state\s+rate\s*:\s*([1-9][0-9]*)[,\s]\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_INT, RegexConf::CAPTURE_FLOAT),
     Game_BattlerBase::FEATURE_STATE_RATE))    # State Rate
-    register(LoadFeature.new(RegexConf.new(/<feature state resist:\s*([1-9][0-9]*)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+state\s+resist\s*:\s*([1-9][0-9]*)\s*>/i, RegexConf::CAPTURE_INT),
     Game_BattlerBase::FEATURE_STATE_RESIST))  # State Resist
     
-    register(LoadFeature.new(RegexConf.new(/<feature param:\s*([0-9]+)[,\s]\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_INT, RegexConf::CAPTURE_FLOAT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+param\s*:\s*([0-9]+)[,\s]\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_INT, RegexConf::CAPTURE_FLOAT),
     Game_BattlerBase::FEATURE_PARAM))         # Parameter
-    register(LoadFeature.new(RegexConf.new(/<feature mhp:\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+mhp\s*:\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
     Game_BattlerBase::FEATURE_PARAM, 0))      # Parameter - mhp
-    register(LoadFeature.new(RegexConf.new(/<feature mmp:\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+mmp\s*:\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
     Game_BattlerBase::FEATURE_PARAM, 1))      # Parameter - mmp
-    register(LoadFeature.new(RegexConf.new(/<feature atk:\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+atk\s*:\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
     Game_BattlerBase::FEATURE_PARAM, 2))      # Parameter - atk
-    register(LoadFeature.new(RegexConf.new(/<feature def:\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+def\s*:\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
     Game_BattlerBase::FEATURE_PARAM, 3))      # Parameter - def
-    register(LoadFeature.new(RegexConf.new(/<feature mat:\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+mat\s*:\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
     Game_BattlerBase::FEATURE_PARAM, 4))      # Parameter - mat
-    register(LoadFeature.new(RegexConf.new(/<feature mdf:\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+mdf\s*:\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
     Game_BattlerBase::FEATURE_PARAM, 5))      # Parameter - mdf
-    register(LoadFeature.new(RegexConf.new(/<feature agi:\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+agi\s*:\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
     Game_BattlerBase::FEATURE_PARAM, 6))      # Parameter - agi
-    register(LoadFeature.new(RegexConf.new(/<feature luk:\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+luk\s*:\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
     Game_BattlerBase::FEATURE_PARAM, 7))      # Parameter - luk
     
-    register(LoadFeature.new(RegexConf.new(/<feature xparam:\s*([0-9]+)[,\s]\s*([\-\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_INT, RegexConf::CAPTURE_FLOAT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+xparam\s*:\s*([0-9]+)[,\s]\s*([\-\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_INT, RegexConf::CAPTURE_FLOAT),
     Game_BattlerBase::FEATURE_XPARAM))        # Ex-Parameter
-    register(LoadFeature.new(RegexConf.new(/<feature hit:\s*([\-\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+hit\s*:\s*([\-\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
     Game_BattlerBase::FEATURE_XPARAM, 0))     # Ex-Parameter - hit
-    register(LoadFeature.new(RegexConf.new(/<feature eva:\s*([\-\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+eva\s*:\s*([\-\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
     Game_BattlerBase::FEATURE_XPARAM, 1))     # Ex-Parameter - eva
-    register(LoadFeature.new(RegexConf.new(/<feature cri:\s*([\-\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+cri\s*:\s*([\-\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
     Game_BattlerBase::FEATURE_XPARAM, 2))     # Ex-Parameter - cri
-    register(LoadFeature.new(RegexConf.new(/<feature cev:\s*([\-\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+cev\s*:\s*([\-\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
     Game_BattlerBase::FEATURE_XPARAM, 3))     # Ex-Parameter - cev
-    register(LoadFeature.new(RegexConf.new(/<feature mev:\s*([\-\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+mev\s*:\s*([\-\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
     Game_BattlerBase::FEATURE_XPARAM, 4))     # Ex-Parameter - mev
-    register(LoadFeature.new(RegexConf.new(/<feature mrf:\s*([\-\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+mrf\s*:\s*([\-\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
     Game_BattlerBase::FEATURE_XPARAM, 5))     # Ex-Parameter - mrf
-    register(LoadFeature.new(RegexConf.new(/<feature cnt:\s*([\-\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+cnt\s*:\s*([\-\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
     Game_BattlerBase::FEATURE_XPARAM, 6))     # Ex-Parameter - cnt
-    register(LoadFeature.new(RegexConf.new(/<feature hrg:\s*([\-\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+hrg\s*:\s*([\-\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
     Game_BattlerBase::FEATURE_XPARAM, 7))     # Ex-Parameter - hrg
-    register(LoadFeature.new(RegexConf.new(/<feature mrg:\s*([\-\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+mrg\s*:\s*([\-\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
     Game_BattlerBase::FEATURE_XPARAM, 8))     # Ex-Parameter - mrg
-    register(LoadFeature.new(RegexConf.new(/<feature trg:\s*([\-\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+trg\s*:\s*([\-\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
     Game_BattlerBase::FEATURE_XPARAM, 9))     # Ex-Parameter - trg
     
-    register(LoadFeature.new(RegexConf.new(/<feature sparam:\s*([0-9]+)[,\s]\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_INT, RegexConf::CAPTURE_FLOAT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+sparam\s*:\s*([0-9]+)[,\s]\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_INT, RegexConf::CAPTURE_FLOAT),
     Game_BattlerBase::FEATURE_SPARAM))        # Sp-Parameter
-    register(LoadFeature.new(RegexConf.new(/<feature tgr:\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+tgr\s*:\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
     Game_BattlerBase::FEATURE_SPARAM, 0))     # Sp-Parameter - tgr
-    register(LoadFeature.new(RegexConf.new(/<feature grd:\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+grd\s*:\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
     Game_BattlerBase::FEATURE_SPARAM, 1))     # Sp-Parameter - grd
-    register(LoadFeature.new(RegexConf.new(/<feature rec:\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+rec\s*:\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
     Game_BattlerBase::FEATURE_SPARAM, 2))     # Sp-Parameter - rec
-    register(LoadFeature.new(RegexConf.new(/<feature pha:\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+pha\s*:\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
     Game_BattlerBase::FEATURE_SPARAM, 3))     # Sp-Parameter - pha
-    register(LoadFeature.new(RegexConf.new(/<feature mcr:\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+mcr\s*:\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
     Game_BattlerBase::FEATURE_SPARAM, 4))     # Sp-Parameter - mcr
-    register(LoadFeature.new(RegexConf.new(/<feature tcr:\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+tcr\s*:\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
     Game_BattlerBase::FEATURE_SPARAM, 5))     # Sp-Parameter - tcr
-    register(LoadFeature.new(RegexConf.new(/<feature pdr:\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+pdr\s*:\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
     Game_BattlerBase::FEATURE_SPARAM, 6))     # Sp-Parameter - pdr
-    register(LoadFeature.new(RegexConf.new(/<feature mdr:\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+mdr\s*:\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
     Game_BattlerBase::FEATURE_SPARAM, 7))     # Sp-Parameter - mdr
-    register(LoadFeature.new(RegexConf.new(/<feature fdr:\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+fdr\s*:\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
     Game_BattlerBase::FEATURE_SPARAM, 8))     # Sp-Parameter - fdr
-    register(LoadFeature.new(RegexConf.new(/<feature exr:\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+exr\s*:\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
     Game_BattlerBase::FEATURE_SPARAM, 9))     # Sp-Parameter - exr
     
-    register(LoadFeature.new(RegexConf.new(/<feature atk element:\s*([1-9][0-9]*)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+atk\s+element\s*:\s*([1-9][0-9]*)\s*>/i, RegexConf::CAPTURE_INT),
     Game_BattlerBase::FEATURE_ATK_ELEMENT))   # Atk Element
-    register(LoadFeature.new(RegexConf.new(/<feature atk state:\s*([1-9][0-9]*)[,\s]\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_INT, RegexConf::CAPTURE_FLOAT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+atk\s+state\s*:\s*([1-9][0-9]*)[,\s]\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_INT, RegexConf::CAPTURE_FLOAT),
     Game_BattlerBase::FEATURE_ATK_STATE))     # Atk State
     
-    register(LoadFeature.new(RegexConf.new(/<feature atk speed:\s*([\-\+]?[0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+atk\s+speed\s*:\s*([\-\+]?[0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_BattlerBase::FEATURE_ATK_SPEED, 0))  # Atk Speed
-    register(LoadFeature.new(RegexConf.new(/<feature atk times:\s*([\-\+]?[0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+atk\s+times\s*:\s*([\-\+]?[0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_BattlerBase::FEATURE_ATK_TIMES, 0))  # Atk Times+
     
-    register(LoadFeature.new(RegexConf.new(/<feature stype add:\s*([1-9][0-9]*)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+stype\s+add\s*:\s*([1-9][0-9]*)\s*>/i, RegexConf::CAPTURE_INT),
     Game_BattlerBase::FEATURE_STYPE_ADD))     # Add Skill Type
-    register(LoadFeature.new(RegexConf.new(/<feature stype seal:\s*([1-9][0-9]*)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+stype\s+seal\s*:\s*([1-9][0-9]*)\s*>/i, RegexConf::CAPTURE_INT),
     Game_BattlerBase::FEATURE_STYPE_SEAL))    # Disable Skill Type
-    register(LoadFeature.new(RegexConf.new(/<feature skill add:\s*([1-9][0-9]*)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+skill\s+add\s*:\s*([1-9][0-9]*)\s*>/i, RegexConf::CAPTURE_INT),
     Game_BattlerBase::FEATURE_SKILL_ADD))     # Add Skill
-    register(LoadFeature.new(RegexConf.new(/<feature skill seal:\s*([1-9][0-9]*)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+skill\s+seal\s*:\s*([1-9][0-9]*)\s*>/i, RegexConf::CAPTURE_INT),
     Game_BattlerBase::FEATURE_SKILL_SEAL))    # Disable Skill
     
-    register(LoadFeature.new(RegexConf.new(/<feature equip wtype:\s*([1-9][0-9]*)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+equip\s+wtype\s*:\s*([1-9][0-9]*)\s*>/i, RegexConf::CAPTURE_INT),
     Game_BattlerBase::FEATURE_EQUIP_WTYPE))   # Equip Weapon
-    register(LoadFeature.new(RegexConf.new(/<feature equip atype:\s*([1-9][0-9]*)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+equip\s+atype\s*:\s*([1-9][0-9]*)\s*>/i, RegexConf::CAPTURE_INT),
     Game_BattlerBase::FEATURE_EQUIP_ATYPE))   # Equip Armor
-    register(LoadFeature.new(RegexConf.new(/<feature equip fix:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+equip\s+fix\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_BattlerBase::FEATURE_EQUIP_FIX))     # Lock Equip
-    register(LoadFeature.new(RegexConf.new(/<feature equip seal:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+equip\s+seal\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_BattlerBase::FEATURE_EQUIP_SEAL))    # Seal Equip
     
-    register(LoadFeature.new(RegexConf.new(/<feature slot type:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+slot\s+type\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_BattlerBase::FEATURE_SLOT_TYPE))     # Slot Type
-    register(LoadFeature.new(RegexConf.new(/<feature slot type:\s*dual wield\s*>/i),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+slot\s+type\s*:\s*dual\s+wield\s*>/i),
     Game_BattlerBase::FEATURE_SLOT_TYPE, 1))  # Slot Type - dual wield
     
-    register(LoadFeature.new(RegexConf.new(/<feature action plus:\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+action\s+plus\s*:\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
     Game_BattlerBase::FEATURE_ACTION_PLUS, 0))# Action Times+
     
-    register(LoadFeature.new(RegexConf.new(/<feature special flag:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+special\s+flag\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_BattlerBase::FEATURE_SPECIAL_FLAG))  # Special Flag
-    register(LoadFeature.new(RegexConf.new(/<feature special flag:\s*auto battle\s*>/i),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+special\s+flag\s*:\s*auto\s+battle\s*>/i),
     Game_BattlerBase::FEATURE_SPECIAL_FLAG, 0))   # Special Flag - auto battle
-    register(LoadFeature.new(RegexConf.new(/<feature special flag:\s*guard\s*>/i),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+special\s+flag\s*:\s*guard\s*>/i),
     Game_BattlerBase::FEATURE_SPECIAL_FLAG, 1))   # Special Flag - guard
-    register(LoadFeature.new(RegexConf.new(/<feature special flag:\s*substitute\s*>/i),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+special\s+flag\s*:\s*substitute\s*>/i),
     Game_BattlerBase::FEATURE_SPECIAL_FLAG, 2))   # Special Flag - substitute
-    register(LoadFeature.new(RegexConf.new(/<feature special flag:\s*preserve tp\s*>/i),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+special\s+flag\s*:\s*preserve\s+tp\s*>/i),
     Game_BattlerBase::FEATURE_SPECIAL_FLAG, 3))   # Special Flag - preserve tp
     
-    register(LoadFeature.new(RegexConf.new(/<feature collapse type:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+collapse\s+type\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_BattlerBase::FEATURE_COLLAPSE_TYPE)) # Collapse Effect
-    register(LoadFeature.new(RegexConf.new(/<feature collapse type:\s*boss\s*>/i),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+collapse\s+type\s*:\s*boss\s*>/i),
     Game_BattlerBase::FEATURE_COLLAPSE_TYPE, 1))  # Collapse Effect - boss
-    register(LoadFeature.new(RegexConf.new(/<feature collapse type:\s*instant\s*>/i),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+collapse\s+type\s*:\s*instant\s*>/i),
     Game_BattlerBase::FEATURE_COLLAPSE_TYPE, 2))  # Collapse Effect - instant
-    register(LoadFeature.new(RegexConf.new(/<feature collapse type:\s*not disappear\s*>/i),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+collapse\s+type\s*:\s*not\s+disappear\s*>/i),
     Game_BattlerBase::FEATURE_COLLAPSE_TYPE, 3))  # Collapse Effect - not disappear
     
-    register(LoadFeature.new(RegexConf.new(/<feature party ability:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+party\s+ability\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_BattlerBase::FEATURE_PARTY_ABILITY)) # Party Ability
-    register(LoadFeature.new(RegexConf.new(/<feature party ability:\s*encounter half\s*>/i),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+party\s+ability\s*:\s*encounter\s+half\s*>/i),
     Game_BattlerBase::FEATURE_PARTY_ABILITY, 0))  # Party Ability - encounter half
-    register(LoadFeature.new(RegexConf.new(/<feature party ability:\s*encounter none\s*>/i),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+party\s+ability\s*:\s*encounter\s+none\s*>/i),
     Game_BattlerBase::FEATURE_PARTY_ABILITY, 1))  # Party Ability - encounter none
-    register(LoadFeature.new(RegexConf.new(/<feature party ability:\s*cancel surprise\s*>/i),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+party\s+ability\s*:\s*cancel\s+surprise\s*>/i),
     Game_BattlerBase::FEATURE_PARTY_ABILITY, 2))  # Party Ability - cancel surprise
-    register(LoadFeature.new(RegexConf.new(/<feature party ability:\s*raise preemptive\s*>/i),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+party\s+ability\s*:\s*raise\s+preemptive\s*>/i),
     Game_BattlerBase::FEATURE_PARTY_ABILITY, 3))  # Party Ability - raise preemptive
-    register(LoadFeature.new(RegexConf.new(/<feature party ability:\s*gold double\s*>/i),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+party\s+ability\s*:\s*gold\s+double\s*>/i),
     Game_BattlerBase::FEATURE_PARTY_ABILITY, 4))  # Party Ability - gold double
-    register(LoadFeature.new(RegexConf.new(/<feature party ability:\s*drop item double\s*>/i),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+party\s+ability\s*:\s*drop\s+item\s+double\s*>/i),
     Game_BattlerBase::FEATURE_PARTY_ABILITY, 5))  # Party Ability - drop item double
 
     #--------------------------------------------------------------------------
     # * Effects
     #--------------------------------------------------------------------------
-    register(LoadEffect.new(RegexConf.new(/<effect:\s*([\-\+]?[0-9]+)(?:[,\s]\s*([\-\+]?[0-9]+)(?:[,\s]\s*([\-\+]?[0-9]+(?:\.[0-9]+)?)(?:[,\s]\s*([\-\+]?[0-9]+(?:\.[0-9]+)?))?)?)?\s*>/i,
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s*:\s*([\-\+]?[0-9]+)(?:[,\s]\s*([\-\+]?[0-9]+)(?:[,\s]\s*([\-\+]?[0-9]+(?:\.[0-9]+)?)(?:[,\s]\s*([\-\+]?[0-9]+(?:\.[0-9]+)?))?)?)?\s*>/i,
           RegexConf::CAPTURE_INT, RegexConf::CAPTURE_INT, RegexConf::CAPTURE_FLOAT, RegexConf::CAPTURE_FLOAT)))
                                               # Manual effect entry
           
-    register(LoadEffect.new(RegexConf.new(/<effect recover hp:\s*([\-\+]?[0-9]+(?:\.[0-9]+)?)[,\s]\s*([\-\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT, RegexConf::CAPTURE_FLOAT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+recover\s+hp\s*:\s*([\-\+]?[0-9]+(?:\.[0-9]+)?)[,\s]\s*([\-\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT, RegexConf::CAPTURE_FLOAT),
     Game_Battler::EFFECT_RECOVER_HP, 0))      # HP Recovery
-    register(LoadEffect.new(RegexConf.new(/<effect recover mp:\s*([\-\+]?[0-9]+(?:\.[0-9]+)?)[,\s]\s*([\-\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT, RegexConf::CAPTURE_FLOAT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+recover\s+mp\s*:\s*([\-\+]?[0-9]+(?:\.[0-9]+)?)[,\s]\s*([\-\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT, RegexConf::CAPTURE_FLOAT),
     Game_Battler::EFFECT_RECOVER_MP, 0))      # MP Recovery
-    register(LoadEffect.new(RegexConf.new(/<effect gain tp:\s*([\-\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+gain\s+tp\s*:\s*([\-\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
     Game_Battler::EFFECT_GAIN_TP, 0))         # TP Gain
     
-    register(LoadEffect.new(RegexConf.new(/<effect add state:\s*([0-9]+)[,\s]\s*([\-\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_INT, RegexConf::CAPTURE_FLOAT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+add\s+state\s*:\s*([0-9]+)[,\s]\s*([\-\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_INT, RegexConf::CAPTURE_FLOAT),
     Game_Battler::EFFECT_ADD_STATE))          # Add State
-    register(LoadEffect.new(RegexConf.new(/<effect add normal attack state:\s*([\-\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+add\s+normal\s+attack\s+state\s*:\s*([\-\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_FLOAT),
     Game_Battler::EFFECT_ADD_STATE, 0))       # Add State - normal attack
-    register(LoadEffect.new(RegexConf.new(/<effect remove state:\s*([0-9]+)[,\s]\s*([\-\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_INT, RegexConf::CAPTURE_FLOAT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+state\s*:\s*([0-9]+)[,\s]\s*([\-\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_INT, RegexConf::CAPTURE_FLOAT),
     Game_Battler::EFFECT_REMOVE_STATE))       # Remove State
     
-    register(LoadEffect.new(RegexConf.new(/<effect add buff:\s*([0-9]+)[,\s]\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+add\s+buff\s*:\s*([0-9]+)[,\s]\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_ADD_BUFF))           # Add Buff
-    register(LoadEffect.new(RegexConf.new(/<effect add buff mhp:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+add\s+buff\s+mhp\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_ADD_BUFF, 0))        # Add Buff - mhp
-    register(LoadEffect.new(RegexConf.new(/<effect add buff mmp:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+add\s+buff\s+mmp\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_ADD_BUFF, 1))        # Add Buff - mmp
-    register(LoadEffect.new(RegexConf.new(/<effect add buff atk:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+add\s+buff\s+atk\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_ADD_BUFF, 2))        # Add Buff - atk
-    register(LoadEffect.new(RegexConf.new(/<effect add buff def:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+add\s+buff\s+def\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_ADD_BUFF, 3))        # Add Buff - def
-    register(LoadEffect.new(RegexConf.new(/<effect add buff mat:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+add\s+buff\s+mat\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_ADD_BUFF, 4))        # Add Buff - mat
-    register(LoadEffect.new(RegexConf.new(/<effect add buff mdf:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+add\s+buff\s+mdf\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_ADD_BUFF, 5))        # Add Buff - mdf
-    register(LoadEffect.new(RegexConf.new(/<effect add buff agi:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+add\s+buff\s+agi\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_ADD_BUFF, 6))        # Add Buff - agi
-    register(LoadEffect.new(RegexConf.new(/<effect add buff luk:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+add\s+buff\s+luk\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_ADD_BUFF, 7))        # Add Buff - luk
     
-    register(LoadEffect.new(RegexConf.new(/<effect add debuff:\s*([0-9]+)[,\s]\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+add\s+debuff\s*:\s*([0-9]+)[,\s]\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_ADD_DEBUFF))         # Add Debuff
-    register(LoadEffect.new(RegexConf.new(/<effect add debuff mhp:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+add\s+debuff\s+mhp\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_ADD_DEBUFF, 0))      # Add Debuff - mhp
-    register(LoadEffect.new(RegexConf.new(/<effect add debuff mmp:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+add\s+debuff\s+mmp\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_ADD_DEBUFF, 1))      # Add Debuff - mmp
-    register(LoadEffect.new(RegexConf.new(/<effect add debuff atk:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+add\s+debuff\s+atk\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_ADD_DEBUFF, 2))      # Add Debuff - atk
-    register(LoadEffect.new(RegexConf.new(/<effect add debuff def:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+add\s+debuff\s+def\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_ADD_DEBUFF, 3))      # Add Debuff - def
-    register(LoadEffect.new(RegexConf.new(/<effect add debuff mat:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+add\s+debuff\s+mat\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_ADD_DEBUFF, 4))      # Add Debuff - mat
-    register(LoadEffect.new(RegexConf.new(/<effect add debuff mdf:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+add\s+debuff\s+mdf\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_ADD_DEBUFF, 5))      # Add Debuff - mdf
-    register(LoadEffect.new(RegexConf.new(/<effect add debuff agi:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+add\s+debuff\s+agi\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_ADD_DEBUFF, 6))      # Add Debuff - agi
-    register(LoadEffect.new(RegexConf.new(/<effect add debuff luk:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+add\s+debuff\s+luk\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_ADD_DEBUFF, 7))      # Add Debuff - luk
     
-    register(LoadEffect.new(RegexConf.new(/<effect remove buff:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+buff\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_REMOVE_BUFF))        # Remove Buff
-    register(LoadEffect.new(RegexConf.new(/<effect remove buff mhp:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+buff\s+mhp\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_REMOVE_BUFF, 0))     # Remove Buff - mhp
-    register(LoadEffect.new(RegexConf.new(/<effect remove buff mmp:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+buff\s+mmp\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_REMOVE_BUFF, 1))     # Remove Buff - mmp
-    register(LoadEffect.new(RegexConf.new(/<effect remove buff atk:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+buff\s+atk\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_REMOVE_BUFF, 2))     # Remove Buff - atk
-    register(LoadEffect.new(RegexConf.new(/<effect remove buff def:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+buff\s+def\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_REMOVE_BUFF, 3))     # Remove Buff - def
-    register(LoadEffect.new(RegexConf.new(/<effect remove buff mat:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+buff\s+mat\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_REMOVE_BUFF, 4))     # Remove Buff - mat
-    register(LoadEffect.new(RegexConf.new(/<effect remove buff mdf:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+buff\s+mdf\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_REMOVE_BUFF, 5))     # Remove Buff - mdf
-    register(LoadEffect.new(RegexConf.new(/<effect remove buff agi:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+buff\s+agi\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_REMOVE_BUFF, 6))     # Remove Buff - agi
-    register(LoadEffect.new(RegexConf.new(/<effect remove buff luk:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+buff\s+luk\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_REMOVE_BUFF, 7))     # Remove Buff - luk
     
-    register(LoadEffect.new(RegexConf.new(/<effect remove debuff:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+debuff\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_REMOVE_DEBUFF))      # Remove Debuff
-    register(LoadEffect.new(RegexConf.new(/<effect remove debuff mhp:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+debuff\s+mhp\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_REMOVE_DEBUFF, 0))   # Remove Debuff - mhp
-    register(LoadEffect.new(RegexConf.new(/<effect remove debuff mmp:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+debuff\s+mmp\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_REMOVE_DEBUFF, 1))   # Remove Debuff - mmp
-    register(LoadEffect.new(RegexConf.new(/<effect remove debuff atk:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+debuff\s+atk\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_REMOVE_DEBUFF, 2))   # Remove Debuff - atk
-    register(LoadEffect.new(RegexConf.new(/<effect remove debuff def:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+debuff\s+def\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_REMOVE_DEBUFF, 3))   # Remove Debuff - def
-    register(LoadEffect.new(RegexConf.new(/<effect remove debuff mat:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+debuff\s+mat\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_REMOVE_DEBUFF, 4))   # Remove Debuff - mat
-    register(LoadEffect.new(RegexConf.new(/<effect remove debuff mdf:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+debuff\s+mdf\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_REMOVE_DEBUFF, 5))   # Remove Debuff - mdf
-    register(LoadEffect.new(RegexConf.new(/<effect remove debuff agi:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+debuff\s+agi\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_REMOVE_DEBUFF, 6))   # Remove Debuff - agi
-    register(LoadEffect.new(RegexConf.new(/<effect remove debuff luk:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+debuff\s+luk\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_REMOVE_DEBUFF, 7))   # Remove Debuff - luk
     
-    register(LoadEffect.new(RegexConf.new(/<effect special:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+special\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_SPECIAL))            # Special Effect
-    register(LoadEffect.new(RegexConf.new(/<effect special:\s*escape\s*>/i),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+special\s*:\s*escape\s*>/i),
     Game_Battler::EFFECT_SPECIAL, Game_Battler::SPECIAL_EFFECT_ESCAPE)) # Special Effect - escape
     
-    register(LoadEffect.new(RegexConf.new(/<effect grow:\s*([0-9]+)[,\s]\s*([\-\+]?[0-9]+)\s*>/i, RegexConf::CAPTURE_INT, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+grow\s*:\s*([0-9]+)[,\s]\s*([\-\+]?[0-9]+)\s*>/i, RegexConf::CAPTURE_INT, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_GROW))               # Raise Parameter
-    register(LoadEffect.new(RegexConf.new(/<effect grow mhp:\s*([\-\+]?[0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+grow\s+mhp\s*:\s*([\-\+]?[0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_GROW, 0))            # Raise Parameter - mhp
-    register(LoadEffect.new(RegexConf.new(/<effect grow mmp:\s*([\-\+]?[0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+grow\s+mmp\s*:\s*([\-\+]?[0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_GROW, 1))            # Raise Parameter - mmp
-    register(LoadEffect.new(RegexConf.new(/<effect grow atk:\s*([\-\+]?[0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+grow\s+atk\s*:\s*([\-\+]?[0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_GROW, 2))            # Raise Parameter - atk
-    register(LoadEffect.new(RegexConf.new(/<effect grow def:\s*([\-\+]?[0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+grow\s+def\s*:\s*([\-\+]?[0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_GROW, 3))            # Raise Parameter - def
-    register(LoadEffect.new(RegexConf.new(/<effect grow mat:\s*([\-\+]?[0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+grow\s+mat\s*:\s*([\-\+]?[0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_GROW, 4))            # Raise Parameter - mat
-    register(LoadEffect.new(RegexConf.new(/<effect grow mdf:\s*([\-\+]?[0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+grow\s+mdf\s*:\s*([\-\+]?[0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_GROW, 5))            # Raise Parameter - mdf
-    register(LoadEffect.new(RegexConf.new(/<effect grow agi:\s*([\-\+]?[0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+grow\s+agi\s*:\s*([\-\+]?[0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_GROW, 6))            # Raise Parameter - agi
-    register(LoadEffect.new(RegexConf.new(/<effect grow luk:\s*([\-\+]?[0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+grow\s+luk\s*:\s*([\-\+]?[0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_GROW, 7))            # Raise Parameter - luk
     
-    register(LoadEffect.new(RegexConf.new(/<effect learn skill:\s*([1-9][0-9]*)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+learn\s+skill\s*:\s*([1-9][0-9]*)\s*>/i, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_LEARN_SKILL))        # Learn Skill
-    register(LoadEffect.new(RegexConf.new(/<effect common event:\s*([1-9][0-9]*)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+common\s+event\s*:\s*([1-9][0-9]*)\s*>/i, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_COMMON_EVENT))       # Common Events
-
-  end
-end
+    
+  end #module Loader
+end #module Garryl
 
 end #Import requirements check
