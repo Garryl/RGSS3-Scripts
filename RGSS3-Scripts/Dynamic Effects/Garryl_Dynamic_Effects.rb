@@ -9,6 +9,8 @@ Last update: Oct. 9, 2015
 
 Author: Garryl
 
+Source: https://github.com/Garryl/RGSS3-Scripts
+
 -------------------------------------------------------------------------------
 
 Description:
@@ -232,7 +234,7 @@ module Garryl
     #------------------------------------------------------------------------
     # * Effects
     #------------------------------------------------------------------------
-    register(LoadDynamicEffect.new(RegexConf.new(/<dynamic effect:\s*([\-\+]?[0-9]+)(?:[,\s]\s*([\-\+]?[0-9]+))?\s*>\s*^(.*)$\s*(?:^(.*)$\s*)?<\/dynamic effect>/i,
+    register(LoadDynamicEffect.new(RegexConf.new(/<\s*dynamic\s+effect\s*:\s*([\-\+]?[0-9]+)(?:[,\s]\s*([\-\+]?[0-9]+))?\s*>\s*^(.*)$\s*(?:^(.*)$\s*)?<\s*\/dynamic\s+effect\s*>/i,
           RegexConf::CAPTURE_INT, RegexConf::CAPTURE_INT, RegexConf::CAPTURE_STRING, RegexConf::CAPTURE_STRING)))
                                               # Dynamic effect entry
   end

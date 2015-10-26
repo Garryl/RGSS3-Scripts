@@ -123,6 +123,9 @@ Effects:
 
 Change Log:
 
+v1.1
+- Saturday, October 10, 2015
+- Bug fix. Incorrect definitions for remove buff/debuff effects where the param is specified by name.
 v1.0
 - Tuesday, June 2, 2015
 - Initial release.
@@ -143,7 +146,7 @@ else
 $imported ||= {}
 $imported["Garryl"] ||= {}
 $imported["Garryl"]["Loader_Defaults"] ||= {}
-$imported["Garryl"]["Loader_Defaults"]["Version"] = "1.0"
+$imported["Garryl"]["Loader_Defaults"]["Version"] = "1.1"
 
 module Garryl
   module Loader
@@ -375,40 +378,40 @@ module Garryl
     
     register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+buff\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_REMOVE_BUFF))        # Remove Buff
-    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+buff\s+mhp\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+buff\s+mhp\s*>/i),
     Game_Battler::EFFECT_REMOVE_BUFF, 0))     # Remove Buff - mhp
-    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+buff\s+mmp\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+buff\s+mmp\s*>/i),
     Game_Battler::EFFECT_REMOVE_BUFF, 1))     # Remove Buff - mmp
-    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+buff\s+atk\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+buff\s+atk\s*>/i),
     Game_Battler::EFFECT_REMOVE_BUFF, 2))     # Remove Buff - atk
-    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+buff\s+def\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+buff\s+def\s*>/i),
     Game_Battler::EFFECT_REMOVE_BUFF, 3))     # Remove Buff - def
-    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+buff\s+mat\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+buff\s+mat\s*>/i),
     Game_Battler::EFFECT_REMOVE_BUFF, 4))     # Remove Buff - mat
-    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+buff\s+mdf\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+buff\s+mdf\s*>/i),
     Game_Battler::EFFECT_REMOVE_BUFF, 5))     # Remove Buff - mdf
-    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+buff\s+agi\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+buff\s+agi\s*>/i),
     Game_Battler::EFFECT_REMOVE_BUFF, 6))     # Remove Buff - agi
-    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+buff\s+luk\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+buff\s+luk\s*>/i),
     Game_Battler::EFFECT_REMOVE_BUFF, 7))     # Remove Buff - luk
     
     register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+debuff\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
     Game_Battler::EFFECT_REMOVE_DEBUFF))      # Remove Debuff
-    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+debuff\s+mhp\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+debuff\s+mhp\s*>/i),
     Game_Battler::EFFECT_REMOVE_DEBUFF, 0))   # Remove Debuff - mhp
-    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+debuff\s+mmp\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+debuff\s+mmp\s*>/i),
     Game_Battler::EFFECT_REMOVE_DEBUFF, 1))   # Remove Debuff - mmp
-    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+debuff\s+atk\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+debuff\s+atk\s*>/i),
     Game_Battler::EFFECT_REMOVE_DEBUFF, 2))   # Remove Debuff - atk
-    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+debuff\s+def\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+debuff\s+def\s*>/i),
     Game_Battler::EFFECT_REMOVE_DEBUFF, 3))   # Remove Debuff - def
-    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+debuff\s+mat\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+debuff\s+mat\s*>/i),
     Game_Battler::EFFECT_REMOVE_DEBUFF, 4))   # Remove Debuff - mat
-    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+debuff\s+mdf\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+debuff\s+mdf\s*>/i),
     Game_Battler::EFFECT_REMOVE_DEBUFF, 5))   # Remove Debuff - mdf
-    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+debuff\s+agi\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+debuff\s+agi\s*>/i),
     Game_Battler::EFFECT_REMOVE_DEBUFF, 6))   # Remove Debuff - agi
-    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+debuff\s+luk\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+remove\s+debuff\s+luk\s*>/i),
     Game_Battler::EFFECT_REMOVE_DEBUFF, 7))   # Remove Debuff - luk
     
     register(LoadEffect.new(RegexConf.new(/<\s*effect\s+special\s*:\s*([0-9]+)\s*>/i, RegexConf::CAPTURE_INT),

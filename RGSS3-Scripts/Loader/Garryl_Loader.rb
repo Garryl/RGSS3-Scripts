@@ -2,10 +2,10 @@
 -------------------------------------------------------------------------------
 
 Note Tag Loader
-Version 1.0
+Version 1.1
 
 Created: May 28, 2015
-Last update: June 2, 2015
+Last update: October 24, 2015
 
 Author: Garryl
 
@@ -167,6 +167,16 @@ class Garryl::Loader::CustomMethod < NotetagLoadingConfiguration
   calls the method once for each object, passing an array containing only the
   object's note.
 
+class Garryl::Loader::CustomInitializer < NotetagLoadingConfiguration
+- new(RegexConf, LoadGroup, :method)
+  Defines a load configuration to pass the first capture group (an array) to
+  the indicated method of each object being loaded. This works similarly to
+  CustomMethod, except that the method will be called exactly once per object.
+  If the note contains the regular expression, only the first capture group
+  will be used. Importantly, however, if the regular expression is missing, it
+  will still call the method, except that it will pass nil to it instead of a
+  capture array.
+
 -------------------------------------------------------------------------------
 
 Examples:
@@ -194,7 +204,7 @@ end
 Example: Defining a note tag to add a note-defined level parameter to enemies.
 
 module Garryl::Loader
-  register(CustomMethod.new(
+  register(CustomInitializer.new(
     RegexConfig.new(/<level:\s*(\d+)\s*>/i, NoteRegexConfig::CAPTURE_INT),
     LoadGroup.new(LoadGroup::ENEMIES),
     :notetag_level))
@@ -203,7 +213,7 @@ end
 RPG::Enemy
   attr_accessor :level
   def notetag_level(capture)
-    @level = capture[0]
+    @level = (capture.nil? ? 0 : capture[0])  #defaults to 0 if missing
   end
 end
 
@@ -211,6 +221,10 @@ end
 
 Change Log:
 
+v1.1
+- Saturday, October 2, 2015
+- Added CustomInitializer option, for methods that must be called exactly once
+  per object (such as initializing a variable).
 v1.0
 - Tuesday, June 2, 2015
 - Initial release.
@@ -244,7 +258,7 @@ The following functions are added to default script classes:
 $imported ||= {}
 $imported["Garryl"] ||= {}
 $imported["Garryl"]["Loader"] ||= {}
-$imported["Garryl"]["Loader"]["Version"] = "1.0"
+$imported["Garryl"]["Loader"]["Version"] = "1.1"
 
 
 module Garryl
@@ -456,6 +470,12 @@ module Garryl
     # * Extends NotetagLoadingConfiguration                                 *
     # * Defines a configuration for loading note tags via a method of the   *
     #   object.                                                             *
+    # * The specified method will be called once for each time the regular  *
+    #   expression captures something within the loaded object's note tag.  *
+    #   Each call passes that set of captures as an array.                  *
+    # * If no RegexConf is provided when creating the CustomMethod object,  *
+    #   the method is called once with the entirety of the note tag passed  *
+    #   to it in an array.                                                  *
     # ***********************************************************************
     class CustomMethod < NotetagLoadingConfiguration
       # *********************************************************************
@@ -481,9 +501,60 @@ module Garryl
         captures = (@regexp_config ? @regexp_config.scan(obj.note) : [obj.note])
         
         captures.each do |capture|
-          #puts "Captured (#{capture}) for CustomMethod feature in #{obj.name}"
+          #puts "Captured (#{capture}) for CustomMethod (#{@method}) in #{obj.name}"
           obj.send(@method, capture) if @method
         end
+      end
+    end #class CustomMethod
+    
+    # ***********************************************************************
+    # * CustomInitializer Class                                             *
+    # * Extends NotetagLoadingConfiguration                                 *
+    # * Defines a configuration for loading note tags via a method of the   *
+    #   object. Works similarly to CustomMethod, except that it is designed *
+    #   to initialize variables that can have only a single instance, and   *
+    #   are thus either present only once in a note tag, or not at all      *
+    #   (resulting in a default value).                                     *
+    # * The specified method will be called exactly once for each object    *
+    #   loaded, regardless of the presence, absence, or quantity of the     *
+    #   regular expression in it note tag.                                  *
+    # * If the regular expression is present one or more times, the first   *
+    #   instance of it will be captured and passed to the method, just like *
+    #   with CustomMethod.                                                  *
+    # * If the note tag is not present, the method will still be called,    *
+    #   except that nil will be passed instead of an array.                 *
+    # * If no RegexConf is provided when creating the CustomInitializer     *
+    #   (ie: regexp_config is nil in the initializer), this works           *
+    #   identically to CustomMethod (the method is called once with the     *
+    #   entirety of the note tag passed to it in an array).                 *
+    # ***********************************************************************
+    class CustomInitializer < NotetagLoadingConfiguration
+      # *********************************************************************
+      # * Methods                                                           *
+      # *********************************************************************
+      #----------------------------------------------------------------------
+      # * Object Initialization
+      #----------------------------------------------------------------------
+      def initialize(regexp_config, load_for, method)
+        super(regexp_config, load_for)
+        @method = method
+      end
+      
+      #----------------------------------------------------------------------
+      # * Load Notetag for Object
+      #----------------------------------------------------------------------
+      def load_notetag(obj)
+        #passes each capture by the regexp as an array to the method along with the object
+        #obj.method(captures.empty? ? nil : captures[0])
+        #If regexp_config is nil, passes the whole note field
+        super
+        
+        captures = (@regexp_config ? @regexp_config.scan(obj.note) : [obj.note])
+        
+        capture = captures.empty?() ? nil : captures[0]
+        #puts "Captured (#{capture}) for CustomInitializer (#{@method}) in #{obj.name}"
+        obj.send(@method, capture) if @method
+        
       end
     end #class CustomMethod
     

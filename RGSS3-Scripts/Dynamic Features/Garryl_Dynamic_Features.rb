@@ -9,6 +9,8 @@ Last update: Oct. 9, 2015
 
 Author: Garryl
 
+Source: https://github.com/Garryl/RGSS3-Scripts
+
 -------------------------------------------------------------------------------
 
 Description:
@@ -251,11 +253,7 @@ module Garryl
     #------------------------------------------------------------------------
     # * Features
     #------------------------------------------------------------------------
-#    register(LoadDynamicFeature.new(RegexConf.new(/<dynamic feature:\s*([\-\+]?[0-9]+)(?:[,\s]\s*([\-\+]?[0-9]+))?\s*>(.*)<\/dynamic feature>/i,
-#          RegexConf::CAPTURE_INT, RegexConf::CAPTURE_INT, RegexConf::CAPTURE_STRING)))
-#    register(LoadDynamicFeature.new(RegexConf.new(/<dynamic feature:\s*([\-\+]?[0-9]+)[,\s]\s*([\-\+]?[0-9]+)\s*>(.*)<\/dynamic feature>/i,
-#          RegexConf::CAPTURE_INT, RegexConf::CAPTURE_INT, RegexConf::CAPTURE_STRING)))
-    register(LoadDynamicFeature.new(RegexConf.new(/<dynamic feature:\s*([\-\+]?[0-9]+)(?:[,\s]\s*([\-\+]?[0-9]+))?\s*>\s*^?(.*)$?\s*<\/dynamic feature>/i,
+    register(LoadDynamicFeature.new(RegexConf.new(/<\s*dynamic\s+feature\s*:\s*([\-\+]?[0-9]+)(?:[,\s]\s*([\-\+]?[0-9]+))?\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+feature\s*>/i,
           RegexConf::CAPTURE_INT, RegexConf::CAPTURE_INT, RegexConf::CAPTURE_STRING)))
                                               # Dynamic feature entry
   end
