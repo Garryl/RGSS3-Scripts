@@ -138,75 +138,75 @@ module Garryl
     #--------------------------------------------------------------------------
     # * Effects
     #--------------------------------------------------------------------------
-    register(LoadDynamicEffect.new(RegexConf.new(/<\s*effect\s+recover\s+hp\s*>\s*^(.*)$\s*(?:^(.*)$\s*)?<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING, RegexConf::CAPTURE_STRING),
+    register(LoadDynamicEffect.new(RegexConf.new(/<\s*dynamic\s+effect\s+recover\s+hp\s*>\s*^(.*)$\s*(?:^(.*)$\s*)?<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING, RegexConf::CAPTURE_STRING),
     Game_Battler::EFFECT_RECOVER_HP, 0))      # HP Recovery
-    register(LoadDynamicEffect.new(RegexConf.new(/<\s*effect\s+recover\s+mp\s*>\s*^(.*)$\s*(?:^(.*)$\s*)?<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING, RegexConf::CAPTURE_STRING),
+    register(LoadDynamicEffect.new(RegexConf.new(/<\s*dynamic\s+effect\s+recover\s+mp\s*>\s*^(.*)$\s*(?:^(.*)$\s*)?<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING, RegexConf::CAPTURE_STRING),
     Game_Battler::EFFECT_RECOVER_MP, 0))      # MP Recovery
-    register(LoadDynamicEffect.new(RegexConf.new(/<\s*effect\s+gain\s+tp\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
+    register(LoadDynamicEffect.new(RegexConf.new(/<\s*dynamic\s+effect\s+gain\s+tp\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
     Game_Battler::EFFECT_GAIN_TP, 0))         # TP Gain
     
-    register(LoadDynamicEffect.new(RegexConf.new(/<\s*effect\s+add\s+state\s*:\s*([0-9]+)>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_INT, RegexConf::CAPTURE_STRING),
+    register(LoadDynamicEffect.new(RegexConf.new(/<\s*dynamic\s+effect\s+add\s+state\s*:\s*([0-9]+)>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_INT, RegexConf::CAPTURE_STRING),
     Game_Battler::EFFECT_ADD_STATE))          # Add State
-    register(LoadDynamicEffect.new(RegexConf.new(/<\s*effect\s+add\s+normal\s+attack\s+state\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
+    register(LoadDynamicEffect.new(RegexConf.new(/<\s*dynamic\s+effect\s+add\s+normal\s+attack\s+state\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
     Game_Battler::EFFECT_ADD_STATE, 0))       # Add State - normal attack
-    register(LoadDynamicEffect.new(RegexConf.new(/<\s*effect\s+remove\s+state\s*:\s*([0-9]+)>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_INT, RegexConf::CAPTURE_STRING),
+    register(LoadDynamicEffect.new(RegexConf.new(/<\s*dynamic\s+effect\s+remove\s+state\s*:\s*([0-9]+)>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_INT, RegexConf::CAPTURE_STRING),
     Game_Battler::EFFECT_REMOVE_STATE))       # Remove State
     
-    register(LoadDynamicEffect.new(RegexConf.new(/<\s*effect\s+add\s+buff\s*:\s*([0-9]+)>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_INT, RegexConf::CAPTURE_STRING),
+    register(LoadDynamicEffect.new(RegexConf.new(/<\s*dynamic\s+effect\s+add\s+buff\s*:\s*([0-9]+)>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_INT, RegexConf::CAPTURE_STRING),
     Game_Battler::EFFECT_ADD_BUFF))           # Add Buff
-    register(LoadDynamicEffect.new(RegexConf.new(/<\s*effect\s+add\s+buff\s+mhp\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
+    register(LoadDynamicEffect.new(RegexConf.new(/<\s*dynamic\s+effect\s+add\s+buff\s+mhp\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
     Game_Battler::EFFECT_ADD_BUFF, 0))        # Add Buff - mhp
-    register(LoadDynamicEffect.new(RegexConf.new(/<\s*effect\s+add\s+buff\s+mmp\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
+    register(LoadDynamicEffect.new(RegexConf.new(/<\s*dynamic\s+effect\s+add\s+buff\s+mmp\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
     Game_Battler::EFFECT_ADD_BUFF, 1))        # Add Buff - mmp
-    register(LoadDynamicEffect.new(RegexConf.new(/<\s*effect\s+add\s+buff\s+atk\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
+    register(LoadDynamicEffect.new(RegexConf.new(/<\s*dynamic\s+effect\s+add\s+buff\s+atk\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
     Game_Battler::EFFECT_ADD_BUFF, 2))        # Add Buff - atk
-    register(LoadDynamicEffect.new(RegexConf.new(/<\s*effect\s+add\s+buff\s+def\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
+    register(LoadDynamicEffect.new(RegexConf.new(/<\s*dynamic\s+effect\s+add\s+buff\s+def\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
     Game_Battler::EFFECT_ADD_BUFF, 3))        # Add Buff - def
-    register(LoadDynamicEffect.new(RegexConf.new(/<\s*effect\s+add\s+buff\s+mat\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
+    register(LoadDynamicEffect.new(RegexConf.new(/<\s*dynamic\s+effect\s+add\s+buff\s+mat\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
     Game_Battler::EFFECT_ADD_BUFF, 4))        # Add Buff - mat
-    register(LoadDynamicEffect.new(RegexConf.new(/<\s*effect\s+add\s+buff\s+mdf\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
+    register(LoadDynamicEffect.new(RegexConf.new(/<\s*dynamic\s+effect\s+add\s+buff\s+mdf\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
     Game_Battler::EFFECT_ADD_BUFF, 5))        # Add Buff - mdf
-    register(LoadDynamicEffect.new(RegexConf.new(/<\s*effect\s+add\s+buff\s+agi\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
+    register(LoadDynamicEffect.new(RegexConf.new(/<\s*dynamic\s+effect\s+add\s+buff\s+agi\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
     Game_Battler::EFFECT_ADD_BUFF, 6))        # Add Buff - agi
-    register(LoadDynamicEffect.new(RegexConf.new(/<\s*effect\s+add\s+buff\s+luk\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
+    register(LoadDynamicEffect.new(RegexConf.new(/<\s*dynamic\s+effect\s+add\s+buff\s+luk\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
     Game_Battler::EFFECT_ADD_BUFF, 7))        # Add Buff - luk
     
-    register(LoadDynamicEffect.new(RegexConf.new(/<\s*effect\s+add\s+debuff\s*:\s*([0-9]+)>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_INT, RegexConf::CAPTURE_STRING),
+    register(LoadDynamicEffect.new(RegexConf.new(/<\s*dynamic\s+effect\s+add\s+debuff\s*:\s*([0-9]+)>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_INT, RegexConf::CAPTURE_STRING),
     Game_Battler::EFFECT_ADD_DEBUFF))         # Add Debuff
-    register(LoadDynamicEffect.new(RegexConf.new(/<\s*effect\s+add\s+debuff\s+mhp\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
+    register(LoadDynamicEffect.new(RegexConf.new(/<\s*dynamic\s+effect\s+add\s+debuff\s+mhp\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
     Game_Battler::EFFECT_ADD_DEBUFF, 0))      # Add Debuff - mhp
-    register(LoadDynamicEffect.new(RegexConf.new(/<\s*effect\s+add\s+debuff\s+mmp\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
+    register(LoadDynamicEffect.new(RegexConf.new(/<\s*dynamic\s+effect\s+add\s+debuff\s+mmp\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
     Game_Battler::EFFECT_ADD_DEBUFF, 1))      # Add Debuff - mmp
-    register(LoadDynamicEffect.new(RegexConf.new(/<\s*effect\s+add\s+debuff\s+atk\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
+    register(LoadDynamicEffect.new(RegexConf.new(/<\s*dynamic\s+effect\s+add\s+debuff\s+atk\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
     Game_Battler::EFFECT_ADD_DEBUFF, 2))      # Add Debuff - atk
-    register(LoadDynamicEffect.new(RegexConf.new(/<\s*effect\s+add\s+debuff\s+def\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
+    register(LoadDynamicEffect.new(RegexConf.new(/<\s*dynamic\s+effect\s+add\s+debuff\s+def\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
     Game_Battler::EFFECT_ADD_DEBUFF, 3))      # Add Debuff - def
-    register(LoadDynamicEffect.new(RegexConf.new(/<\s*effect\s+add\s+debuff\s+mat\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
+    register(LoadDynamicEffect.new(RegexConf.new(/<\s*dynamic\s+effect\s+add\s+debuff\s+mat\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
     Game_Battler::EFFECT_ADD_DEBUFF, 4))      # Add Debuff - mat
-    register(LoadDynamicEffect.new(RegexConf.new(/<\s*effect\s+add\s+debuff\s+mdf\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
+    register(LoadDynamicEffect.new(RegexConf.new(/<\s*dynamic\s+effect\s+add\s+debuff\s+mdf\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
     Game_Battler::EFFECT_ADD_DEBUFF, 5))      # Add Debuff - mdf
-    register(LoadDynamicEffect.new(RegexConf.new(/<\s*effect\s+add\s+debuff\s+agi\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
+    register(LoadDynamicEffect.new(RegexConf.new(/<\s*dynamic\s+effect\s+add\s+debuff\s+agi\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
     Game_Battler::EFFECT_ADD_DEBUFF, 6))      # Add Debuff - agi
-    register(LoadDynamicEffect.new(RegexConf.new(/<\s*effect\s+add\s+debuff\s+luk\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
+    register(LoadDynamicEffect.new(RegexConf.new(/<\s*dynamic\s+effect\s+add\s+debuff\s+luk\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
     Game_Battler::EFFECT_ADD_DEBUFF, 7))      # Add Debuff - luk
     
-    register(LoadDynamicEffect.new(RegexConf.new(/<\s*effect\s+grow\s*:\s*([0-9]+)>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_INT, RegexConf::CAPTURE_STRING),
+    register(LoadDynamicEffect.new(RegexConf.new(/<\s*dynamic\s+effect\s+grow\s*:\s*([0-9]+)>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_INT, RegexConf::CAPTURE_STRING),
     Game_Battler::EFFECT_GROW))               # Raise Parameter
-    register(LoadDynamicEffect.new(RegexConf.new(/<\s*effect\s+grow\s+mhp\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
+    register(LoadDynamicEffect.new(RegexConf.new(/<\s*dynamic\s+effect\s+grow\s+mhp\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
     Game_Battler::EFFECT_GROW, 0))            # Raise Parameter - mhp
-    register(LoadDynamicEffect.new(RegexConf.new(/<\s*effect\s+grow\s+mmp\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
+    register(LoadDynamicEffect.new(RegexConf.new(/<\s*dynamic\s+effect\s+grow\s+mmp\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
     Game_Battler::EFFECT_GROW, 1))            # Raise Parameter - mmp
-    register(LoadDynamicEffect.new(RegexConf.new(/<\s*effect\s+grow\s+atk\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
+    register(LoadDynamicEffect.new(RegexConf.new(/<\s*dynamic\s+effect\s+grow\s+atk\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
     Game_Battler::EFFECT_GROW, 2))            # Raise Parameter - atk
-    register(LoadDynamicEffect.new(RegexConf.new(/<\s*effect\s+grow\s+def\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
+    register(LoadDynamicEffect.new(RegexConf.new(/<\s*dynamic\s+effect\s+grow\s+def\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
     Game_Battler::EFFECT_GROW, 3))            # Raise Parameter - def
-    register(LoadDynamicEffect.new(RegexConf.new(/<\s*effect\s+grow\s+mat\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
+    register(LoadDynamicEffect.new(RegexConf.new(/<\s*dynamic\s+effect\s+grow\s+mat\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
     Game_Battler::EFFECT_GROW, 4))            # Raise Parameter - mat
-    register(LoadDynamicEffect.new(RegexConf.new(/<\s*effect\s+grow\s+mdf\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
+    register(LoadDynamicEffect.new(RegexConf.new(/<\s*dynamic\s+effect\s+grow\s+mdf\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
     Game_Battler::EFFECT_GROW, 5))            # Raise Parameter - mdf
-    register(LoadDynamicEffect.new(RegexConf.new(/<\s*effect\s+grow\s+agi\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
+    register(LoadDynamicEffect.new(RegexConf.new(/<\s*dynamic\s+effect\s+grow\s+agi\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
     Game_Battler::EFFECT_GROW, 6))            # Raise Parameter - agi
-    register(LoadDynamicEffect.new(RegexConf.new(/<\s*effect\s+grow\s+luk\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
+    register(LoadDynamicEffect.new(RegexConf.new(/<\s*dynamic\s+effect\s+grow\s+luk\s*>\s*^?(.*)$?\s*<\s*\/dynamic\s+effect\s*>/i, RegexConf::CAPTURE_STRING),
     Game_Battler::EFFECT_GROW, 7))            # Raise Parameter - luk
 
   end

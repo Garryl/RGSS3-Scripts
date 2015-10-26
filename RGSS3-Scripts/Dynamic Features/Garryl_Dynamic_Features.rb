@@ -298,7 +298,7 @@ class RPG::BaseItem
     #puts "DEBUG: Resolving features for battler base: #{name}"
     
     #Gets all features, which includes snapshots of dynamic features.
-    features_result = garryl_state_potency_alias_rpg_baseitem_features
+    features_result = garryl_dynamic_features_alias_rpg_baseitem_features
     
     #select static features
     resolved_features = features_result.select do |feature| feature.static? end

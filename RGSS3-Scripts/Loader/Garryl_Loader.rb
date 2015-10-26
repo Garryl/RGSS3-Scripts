@@ -2,10 +2,10 @@
 -------------------------------------------------------------------------------
 
 Note Tag Loader
-Version 1.1
+Version 1.2
 
 Created: May 28, 2015
-Last update: October 24, 2015
+Last update: October 25, 2015
 
 Author: Garryl
 
@@ -221,8 +221,12 @@ end
 
 Change Log:
 
+v1.2
+- Saturday, October 25, 2015
+- Adjusted LoadGroup so the class as a whole and the objects representing
+  specific groups are easier to extend in future.
 v1.1
-- Saturday, October 2, 2015
+- Saturday, October 24, 2015
 - Added CustomInitializer option, for methods that must be called exactly once
   per object (such as initializing a variable).
 v1.0
@@ -258,7 +262,7 @@ The following functions are added to default script classes:
 $imported ||= {}
 $imported["Garryl"] ||= {}
 $imported["Garryl"]["Loader"] ||= {}
-$imported["Garryl"]["Loader"]["Version"] = "1.1"
+$imported["Garryl"]["Loader"]["Version"] = "1.2"
 
 
 module Garryl
@@ -373,7 +377,21 @@ module Garryl
       #----------------------------------------------------------------------
       def initialize(*load_for)
         #load_for.each do |id| self.push(id) end
-        @data_groups = load_for
+        @data_groups = load_for.uniq
+      end
+      
+      #----------------------------------------------------------------------
+      # * Add a Data Group
+      #----------------------------------------------------------------------
+      def add_data_group(data_group)
+        @data_groups.push(data_group) unless @data_group.include?(data_group)
+      end
+      
+      #----------------------------------------------------------------------
+      # * Remove a Data Group
+      #----------------------------------------------------------------------
+      def remove_data_group(data_group)
+        @data_groups.delete(data_group)
       end
       
       #----------------------------------------------------------------------
@@ -385,31 +403,70 @@ module Garryl
       #----------------------------------------------------------------------
       def resolve_groups
         group = []
-        @data_groups.each do |load_element|
-          case load_element
-          when ACTORS
-            group.push($data_actors)
-          when CLASSES
-            group.push($data_classes)
-          when SKILLS
-            group.push($data_skills)
-          when ITEMS
-            group.push($data_items)
-          when WEAPONS
-            group.push($data_weapons)
-          when ARMOR
-            group.push($data_armors)
-          when ENEMIES
-            group.push($data_enemies)
-          when STATES
-            group.push($data_states)
-          when TILESETS
-            group.push($data_tilesets)
-          when MAPS
-            #group.push($data_mapinfos) #Map note tags must be loaded when the maps are loaded
-          end
+        @data_groups.each do |data_group|
+#          case data_group
+#          when ACTORS
+#            group.push($data_actors)
+#          when CLASSES
+#            group.push($data_classes)
+#          when SKILLS
+#            group.push($data_skills)
+#          when ITEMS
+#            group.push($data_items)
+#          when WEAPONS
+#            group.push($data_weapons)
+#          when ARMOR
+#            group.push($data_armors)
+#          when ENEMIES
+#            group.push($data_enemies)
+#          when STATES
+#            group.push($data_states)
+#          when TILESETS
+#            group.push($data_tilesets)
+#          when MAPS
+#            #group.push($data_mapinfos) #Map note tags must be loaded when the maps are loaded
+#          end
+          data = resolve_data_group(data_group)
+          group.push(data) unless data.nil?
         end
         return group.uniq
+      end
+      
+      #----------------------------------------------------------------------
+      # * Resolve Data Group
+      # * Resolves a specified data group into the actual data array it
+      #   represents.
+      # * Note: Since maps are loaded individually on demand, they have no
+      #   data array to resolve to.
+      #----------------------------------------------------------------------
+      def resolve_data_group(data_group)
+        group = nil
+        case data_group
+        when ACTORS
+          group = $data_actors
+        when CLASSES
+          group = $data_classes
+        when SKILLS
+          group = $data_skills
+        when ITEMS
+          group = $data_items
+        when WEAPONS
+          group = $data_weapons
+        when ARMOR
+          group = $data_armors
+        when ENEMIES
+          group = $data_enemies
+        when STATES
+          group = $data_states
+        when TILESETS
+          group = $data_tilesets
+        when MAPS
+          #group = $data_mapinfos #Map note tags must be loaded when the maps are loaded
+          group = nil
+        else
+          group = nil
+        end
+        return group
       end
       
       #----------------------------------------------------------------------
