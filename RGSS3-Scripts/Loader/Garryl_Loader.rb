@@ -384,7 +384,7 @@ module Garryl
       # * Add a Data Group
       #----------------------------------------------------------------------
       def add_data_group(data_group)
-        @data_groups.push(data_group) unless @data_group.include?(data_group)
+        @data_groups.push(data_group) unless @data_groups.include?(data_group)
       end
       
       #----------------------------------------------------------------------
