@@ -2,10 +2,10 @@
 -------------------------------------------------------------------------------
 
 Default Note Tags
-Version 1.0
+Version 1.1
 
 Created: May 28, 2015
-Last update: June 2, 2015
+Last update: October 10, 2015
 
 Author: Garryl
 

@@ -2,10 +2,10 @@
 -------------------------------------------------------------------------------
 
 Dynamic Effects
-Version 1.0
+Version 1.1
 
 Created: Oct. 9, 2015
-Last update: Oct. 9, 2015
+Last update: Oct. 26, 2015
 
 Author: Garryl
 
@@ -76,7 +76,7 @@ apart lines of Ruby script.
 - You can use the following variables in your script.
   a: The battler using the skill or item
   b: The battler subjected to the skill or item
-  s: The skill or item using the dynamic effect
+  i: The skill or item using the dynamic effect
   v: $game_variables
 - Any amount of white space is allowed around the numbers. They may,
   optionally, be comma-separated.
@@ -104,6 +104,11 @@ won't work as intended.
 
 Change Log:
 
+v1.1
+- Monday, October 26, 2015
+- Changed the base item reference from 's' to 'i' in formulas to be consistent
+  with the formula evaluation in my other scripts.
+- Fixed bug with default values always being 0.
 v1.0
 - Friday, October 9, 2015
 - Initial release.
@@ -150,7 +155,7 @@ else
 $imported ||= {}
 $imported["Garryl"] ||= {}
 $imported["Garryl"]["Dynamic_Effects"] ||= {}
-$imported["Garryl"]["Dynamic_Effects"]["Version"] = "1.0"
+$imported["Garryl"]["Dynamic_Effects"]["Version"] = "1.1"
 $imported["Garryl"]["Dynamic_Effects"]["Dynamic Effects"] = true
 
   
@@ -331,12 +336,12 @@ class RPG::UsableItem::DynamicEffect < RPG::UsableItem::Effect
   #--------------------------------------------------------------------------
   def default_value1
     #puts "DEBUG: Getting default value1"
-    return Garryl::DynamicEffects::Settings::DEFAULT_VALUES[@effect_code][0]
+    return Garryl::DynamicEffects::Settings::DEFAULT_VALUES[@code][0]
   end
   
   def default_value2
     #puts "DEBUG: Getting default value2"
-    return Garryl::DynamicEffects::Settings::DEFAULT_VALUES[@effect_code][1]
+    return Garryl::DynamicEffects::Settings::DEFAULT_VALUES[@code][1]
   end
   
   #--------------------------------------------------------------------------

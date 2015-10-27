@@ -2,10 +2,10 @@
 -------------------------------------------------------------------------------
 
 Dynamic Features
-Version 2.0
+Version 2.1
 
 Created: Apr. 8, 2015
-Last update: Oct. 9, 2015
+Last update: Oct. 26, 2015
 
 Author: Garryl
 
@@ -76,7 +76,7 @@ apart lines of Ruby script.
 - VALUE_FORMULA is the Ruby script that will be evaluated when checking the
   dynamic feature's value. You can use the following variables in your script.
   a: The battler whose feature is being evaluated.
-  s: The feature-bearing item providing the dynamic feature
+  i: The feature-bearing item providing the dynamic feature
   v: $game_variables
 - Any amount of white space is allowed around the numbers. They may,
   optionally, be comma-separated.
@@ -109,6 +109,11 @@ while being evaluated), or else things probably won't work as intended.
 
 Change Log:
 
+v2.1
+- Monday, October 26, 2015
+- Changed the base item reference from 's' to 'i' in formulas to be consistent
+  with the formula evaluation in my other scripts.
+- Fixed bug with default values always being 0.
 v2.0
 - Friday, October 9, 2015
 - Independent release of dynamic features.
@@ -161,7 +166,7 @@ else
 $imported ||= {}
 $imported["Garryl"] ||= {}
 $imported["Garryl"]["Dynamic_Features"] ||= {}
-$imported["Garryl"]["Dynamic_Features"]["Version"] = "2.0"
+$imported["Garryl"]["Dynamic_Features"]["Version"] = "2.1"
 $imported["Garryl"]["Dynamic_Features"]["Dynamic Features"] = true
 
   
@@ -412,17 +417,17 @@ class RPG::BaseItem::DynamicFeature < RPG::BaseItem::Feature
   # * Used in case of skipping due to recursion or when an eval error occurs
   #--------------------------------------------------------------------------
   def default_value
-    #puts "DEBUG: Getting default value"
-    return Garryl::DynamicFeatures::Settings::DEFAULT_VALUES[@feature_code]
+    #puts "DEBUG: Getting default value #{Garryl::DynamicFeatures::Settings::DEFAULT_VALUES[@code]} for dynamic feature code #{@code}"
+    return Garryl::DynamicFeatures::Settings::DEFAULT_VALUES[@code]
   end
   
   #--------------------------------------------------------------------------
   # * Evaluates the value script
   # * a: Current reference battler
-  # * s: Base item that is the source of the feature
+  # * i: Base item that is the source of the feature
   # * v: $game_variables
   #--------------------------------------------------------------------------
-  def evaluate(a, s, v = $game_variables)
+  def evaluate(a, i, v = $game_variables)
     #return eval(@value)
     return Kernel.eval(@value) rescue default_value
   end
