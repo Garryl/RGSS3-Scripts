@@ -172,7 +172,7 @@ module Garryl
           RegexConf::CAPTURE_INT, RegexConf::CAPTURE_INT, RegexConf::CAPTURE_FLOAT)))
                                               # Manual feature entry
           
-    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+element rate\s*:\s*([1-9][0-9]*)[,\s]\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_INT, RegexConf::CAPTURE_FLOAT),
+    register(LoadFeature.new(RegexConf.new(/<\s*feature\s+element\s+rate\s*:\s*([1-9][0-9]*)[,\s]\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_INT, RegexConf::CAPTURE_FLOAT),
     Game_BattlerBase::FEATURE_ELEMENT_RATE))  # Element Rate
     register(LoadFeature.new(RegexConf.new(/<\s*feature\s+debuff\s+rate\s*:\s*([1-9][0-9]*)[,\s]\s*([\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_INT, RegexConf::CAPTURE_FLOAT),
     Game_BattlerBase::FEATURE_DEBUFF_RATE))   # Debuff Rate
