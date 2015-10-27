@@ -2,7 +2,7 @@
 -------------------------------------------------------------------------------
 
 State Intensity
-Version 1.0
+Version 1.1
 
 Created: Oct. 26, 2015
 Last update: Oct. 26, 2015
@@ -36,7 +36,7 @@ Copy into a new script slot in the Materials section.
 
 Dependencies:
 
-This script requires the Garryl Loader script, available at
+This script requires the Garryl Loader script v1.1, available at
 https://github.com/Garryl/RGSS3-Scripts/tree/master/RGSS3-Scripts/Loader
 
 -------------------------------------------------------------------------------
@@ -52,7 +52,7 @@ as defined by a formula set by a note tag (default 0 if not present).
 Additionally, the unused value2 field of [Add State] Effects (effect code 21),
 for both normal attacks (data ID 0) and specific states (data ID = state ID),
 has been made to set the state intensity of any states the effects successfully
-apply. You'll need another script to create effects with value2 set, however.
+apply. This can be used by the Add State with Intensity effect note tag.
 
 If a state is re-applied, the new intensity is determined based on the
 state-specific setting set by a note tag. If the tag is not present, it uses
@@ -78,9 +78,9 @@ Garryl::StateIntensity::Settings module.
 
 The default intensity stacking type, used by states that lack the note tag
 setting it explicitly, can be changed. Available options are...
-  Stacking::ADDITIVE - Old and new intensities are added together
-  Stacking::NEWEST - New intensity is used, old intensity is discarded
-  Stacking::STRONGEST - The higher of the old and new intensities is used
+  Stacking::ADDITIVE - Old and new intensities are added together.
+  Stacking::NEWEST - New intensity is used, old intensity is discarded.
+  Stacking::STRONGEST - The higher of the old and new intensities is used.
 
 -------------------------------------------------------------------------------
 
@@ -88,6 +88,10 @@ Note Tags:
 
 The following note tags are supported. Additional functionality can be
 gained by putting the indicated text in the "Note" field of states.
+
+Effects:
+- Add State with Intensity:   <effect add state with intensity: STATE_ID, APPLICATION_RATE, INTENSITY>
+  - Causes the skill or item to add a state with a specified intensity.
 
 Normal Attack Intensity: Defines a formula to be evaluated that determines
 state intensity when added via a normal attack. The value is calculated by a
@@ -126,6 +130,9 @@ This note tag is optional. If not present, normal attack intensity defaults to 0
 
 Change Log:
 
+v1.1
+- Friday, October 26, 2015
+- Added note tag for add state with intensity effect.
 v1.0
 - Friday, October 26, 2015
 - Initial release.
@@ -181,7 +188,7 @@ else
 $imported ||= {}
 $imported["Garryl"] ||= {}
 $imported["Garryl"]["StateIntensity"] ||= {}
-$imported["Garryl"]["StateIntensity"]["Version"] = "1.0"
+$imported["Garryl"]["StateIntensity"]["Version"] = "1.1"
 
 
 module Garryl
@@ -233,6 +240,13 @@ module Garryl
         LoadGroup.new(LoadGroup::STATES),
         :notetag_init_stacking_intensity)
     )   # State intensity used when state is re-applied
+    
+    #--------------------------------------------------------------------------
+    # * Effects
+    #--------------------------------------------------------------------------
+    register(LoadEffect.new(RegexConf.new(/<\s*effect\s+add\s+state\s+with\s+intensity\s*:\s*([0-9]+)[,\s]\s*([\-\+]?[0-9]+(?:\.[0-9]+)?)[,\s]\s*([\-\+]?[0-9]+(?:\.[0-9]+)?)\s*>/i, RegexConf::CAPTURE_INT, RegexConf::CAPTURE_FLOAT, RegexConf::CAPTURE_FLOAT),
+    Game_Battler::EFFECT_ADD_STATE))          # Add State with Intensity
+
   end
 
 end
